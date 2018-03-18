@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xtwy.mobilemedia">
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 读写文联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <!-- 存储文件或者创建文件夹需要的两个权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 监视用户电话的状态侵犯了用户的隐私，需要权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- 录音需要权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- 外界拨打权限 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <!--
+    接收手机启动完毕广播事件的权限，在4.0以前的版本，不需要添加这个权限也可以开启启动，
+    在4.0以后的版本 不包括4。0必须要添加开机启动的权限
+    -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -12,10 +30,17 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 配置服务 -->
+        <service android:name=".PhoneStatusService"/>
+        <!--  配置广播接收者 -->
+        <receiver android:name="com.xtwy.mobilemedia.BootCompleteReceiver">
+            <intent-filter >
+                <!--开机启动-->
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
-
 </manifest>
